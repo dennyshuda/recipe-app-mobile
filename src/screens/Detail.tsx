@@ -14,7 +14,8 @@ const Detail = () => {
 
 	const { form, primary } = colors;
 	const { meal, status } = useGetMealById(route.params.itemId);
-	console.log(meal);
+	console.log(meal?.strInstructions);
+	const instructions = meal?.strInstructions.split("\r\n");
 
 	const isLoading = status === "loading";
 
@@ -60,7 +61,11 @@ const Detail = () => {
 
 						<View>
 							<Text style={{ fontWeight: "bold", fontSize: 17, marginVertical: 10 }}>Steps</Text>
-							<Text>{meal?.strInstructions}</Text>
+							{instructions?.map((instruction, index) => (
+								<Text key={index} style={{ textAlign: "justify" }}>
+									{index + 1}. {instruction}
+								</Text>
+							))}
 						</View>
 					</View>
 				</>
