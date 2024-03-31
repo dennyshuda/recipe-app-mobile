@@ -27,8 +27,18 @@ const TabMenu = ({ tab }: Props) => {
 					<Pressable
 						style={
 							selected === item.value
-								? { backgroundColor: "green", padding: 10, borderRadius: 100 }
-								: { backgroundColor: form, padding: 10, borderRadius: 100 }
+								? {
+										backgroundColor: "green",
+										paddingVertical: 10,
+										paddingHorizontal: 20,
+										borderRadius: 100,
+								  }
+								: {
+										backgroundColor: form,
+										paddingVertical: 10,
+										paddingHorizontal: 20,
+										borderRadius: 100,
+								  }
 						}
 						onPress={() => setSelected(item.value)}
 					>

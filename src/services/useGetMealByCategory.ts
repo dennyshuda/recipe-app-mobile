@@ -11,19 +11,20 @@ type MealsResponse = {
 const useGetMealByCategory = () => {
 	const { selected } = useContext(TabContext) as TabContextType;
 	const [meals, setMeals] = useState<MealsResponse[]>([]);
-	const [loading, setLoading] = useState<boolean>(false);
+	const [status, setStatus] = useState<"idle" | "success" | "loading" | "error">("idle");
 
 	const getMeal = async () => {
 		try {
-			setLoading(true);
+			setStatus("loading");
 			const response = await fetch(BASE_URL + `filter.php?c=${selected}`);
 			const data = await response.json();
 			setMeals(data.meals);
+			setStatus("success");
 		} catch (error) {
-			setLoading(false);
+			setStatus("error");
 			throw new Error("Something wrong when fetch data");
 		} finally {
-			setLoading(false);
+			setStatus("idle");
 		}
 	};
 
@@ -31,7 +32,7 @@ const useGetMealByCategory = () => {
 		getMeal();
 	}, [selected]);
 
-	return { meals, loading, selected };
+	return { meals, status, selected };
 };
 
 export default useGetMealByCategory;

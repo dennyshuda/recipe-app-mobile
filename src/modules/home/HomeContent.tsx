@@ -5,15 +5,20 @@ import { RootStackNavigatorParamsList } from "../../../App";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import { useNavigation } from "@react-navigation/native";
+import { BASE_STYLES } from "../../styles";
 
 const HomeContent = () => {
 	const { tertiaryText } = colors;
-	const { meals } = useGetMealByCategory();
+	const { meals, status } = useGetMealByCategory();
 
 	const navigation = useNavigation<NativeStackNavigationProp<RootStackNavigatorParamsList>>();
 
+	const isLoading = status === "loading";
+
+	if (isLoading) return <Text>loading</Text>;
+
 	return (
-		<View>
+		<View style={BASE_STYLES.container}>
 			<FlatList
 				data={meals}
 				keyExtractor={(item) => item.idMeal}

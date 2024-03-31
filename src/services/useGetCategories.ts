@@ -10,19 +10,20 @@ type CategoriesResponse = {
 
 const useGetCategories = () => {
 	const [categories, setCategories] = useState<CategoriesResponse[]>([]);
-	const [loading, setLoading] = useState<boolean>(false);
+	const [status, setStatus] = useState<"idle" | "success" | "loading" | "error">("idle");
 
 	const getCategories = async () => {
 		try {
-			setLoading(true);
+			setStatus("loading");
 			const response = await fetch(BASE_URL + "categories.php");
 			const data = await response.json();
 			setCategories(data.categories);
+			setStatus("success");
 		} catch (error) {
-			setLoading(false);
+			setStatus("error");
 			throw new Error("Something wrong when fetch data");
 		} finally {
-			setLoading(false);
+			setStatus("idle");
 		}
 	};
 
@@ -30,7 +31,7 @@ const useGetCategories = () => {
 		getCategories();
 	}, []);
 
-	return { categories, loading };
+	return { categories, status };
 };
 
 export default useGetCategories;

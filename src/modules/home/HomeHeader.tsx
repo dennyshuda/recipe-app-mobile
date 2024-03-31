@@ -2,13 +2,16 @@ import { TextInput, View, Text } from "react-native";
 import useGetCategories from "../../services/useGetCategories";
 import Tabs from "../../components/TabMenu";
 import colors from "../../lib/color";
+import { BASE_STYLES } from "../../styles";
 
 const HomeHeader = () => {
 	const { secondaryText } = colors;
-	const { categories } = useGetCategories();
+	const { categories, status } = useGetCategories();
+
+	const isLoading = status === "loading";
 
 	return (
-		<View>
+		<View style={BASE_STYLES.container}>
 			<TextInput
 				style={{
 					height: 50,
@@ -23,12 +26,16 @@ const HomeHeader = () => {
 			<View style={{ gap: 10 }}>
 				<Text style={{ fontWeight: "bold", fontSize: 17 }}>Category</Text>
 
-				<Tabs
-					tab={categories.map(({ strCategory }) => ({
-						label: strCategory,
-						value: strCategory,
-					}))}
-				/>
+				{isLoading ? (
+					<Text>loading</Text>
+				) : (
+					<Tabs
+						tab={categories.map(({ strCategory }) => ({
+							label: strCategory,
+							value: strCategory,
+						}))}
+					/>
+				)}
 			</View>
 
 			<View
